@@ -20,9 +20,9 @@ import com.navercorp.pinpoint.common.server.bo.stat.AgentStatDataPoint;
 import com.navercorp.pinpoint.common.server.bo.stat.AgentStatType;
 import com.navercorp.pinpoint.common.server.util.time.Range;
 import com.navercorp.pinpoint.web.mapper.stat.sampling.sampler.AgentStatSampler;
-import com.navercorp.pinpoint.web.util.FixedTimeWindowSampler;
-import com.navercorp.pinpoint.web.util.TimeWindow;
-import com.navercorp.pinpoint.web.util.TimeWindowSampler;
+import com.navercorp.pinpoint.common.server.util.timewindow.FixedTimeWindowSampler;
+import com.navercorp.pinpoint.common.server.util.timewindow.TimeWindow;
+import com.navercorp.pinpoint.common.server.util.timewindow.TimeWindowSampler;
 import com.navercorp.pinpoint.web.vo.stat.SampledAgentStatDataPoint;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -166,6 +166,8 @@ public class SampledAgentStatResultExtractorTest {
     }
 
     private static class TestAgentStatDataPoint implements AgentStatDataPoint {
+
+        private String applicationName;
         private String agentId;
         private long startTimestamp;
         private long timestamp;
@@ -204,6 +206,16 @@ public class SampledAgentStatResultExtractorTest {
         @Override
         public AgentStatType getAgentStatType() {
             return AgentStatType.UNKNOWN;
+        }
+
+        @Override
+        public String getApplicationName() {
+            return applicationName;
+        }
+
+        @Override
+        public void setApplicationName(String applicationName) {
+            this.applicationName = applicationName;
         }
 
         public int getValue() {

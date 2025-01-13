@@ -22,7 +22,6 @@ import com.navercorp.pinpoint.metric.web.util.QueryParameter;
 import com.navercorp.pinpoint.metric.web.util.TimePrecision;
 
 import java.security.InvalidParameterException;
-import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 
 public class UriStatSummaryQueryParameter extends QueryParameter {
@@ -89,7 +88,7 @@ public class UriStatSummaryQueryParameter extends QueryParameter {
         }
 
         public static OrderBy fromValue(String name) {
-            return GETTER.fromValue(OrderBy::getName, name);
+            return GETTER.fromValueIgnoreCase(OrderBy::getName, name);
         }
 
         @Override
@@ -136,7 +135,9 @@ public class UriStatSummaryQueryParameter extends QueryParameter {
         }
 
         public Builder setAgentId(String agentId) {
-            this.agentId = agentId;
+            if (StringUtils.hasLength(agentId)) {
+                this.agentId = agentId;
+            }
             return self();
         }
 
