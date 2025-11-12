@@ -52,6 +52,7 @@ public class ApplicationResponse {
         return application;
     }
 
+    @Deprecated
     public Set<String> getAgentIds() {
         return agentIdMap;
     }
@@ -62,9 +63,7 @@ public class ApplicationResponse {
     }
 
     public Histogram getApplicationTotalHistogram() {
-        Histogram histogram = new Histogram(application.getServiceType());
-        histogram.addAll(histograms);
-        return histogram;
+        return Histogram.sumOf(application.getServiceType(), histograms);
     }
 
     @Override
